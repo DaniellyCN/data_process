@@ -2,11 +2,10 @@ from kafka import KafkaProducer
 import json
 import random
 import time
-from dotenv import load_dotenv
 import os
 
 # Carregar variáveis de ambiente do .env
-load_dotenv()
+
 
 # Conectar ao Kafka no Docker
 KAFKA_BROKER = os.getenv('KAFKA_BROKER', 'localhost:9092')

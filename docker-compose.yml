@@ -34,3 +34,29 @@ services:
     environment:
       - TASK_MANAGER_NUMBER_OF_TASK_SLOTS=2
     command: taskmanager
+
+ # Novo serviço para o producer
+  producer:
+    build:
+      context: . # Usa o Dockerfile para construir a imagem
+    volumes:
+      - .:/app # Monta o diretório atual no container
+    depends_on:
+      - kafka # Garante que o Kafka estará rodando
+    environment:
+      - KAFKA_BROKER=kafka:9092
+      - KAFKA_TOPIC=sensor-topic
+    command: python producer.py
+
+  # Novo serviço para o jobConsumer
+  consumer:
+    build:
+      context: . # Usa o Dockerfile para construir a imagem
+    volumes:
+      - .:/app # Monta o diretório atual no container
+    depends_on:
+      - kafka # Garante que o Kafka estará rodando
+    environment:
+      - KAFKA_BROKER=kafka:9092
+      - KAFKA_TOPIC=sensor-topic
+    command: python jobConsumer.py
